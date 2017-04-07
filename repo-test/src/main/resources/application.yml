@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: user-repo
+  data:
+    rest:
+      base-path: /db_api
+      default-page-size: 10
+      limit-param-name: size
+      max-page-size: 50
+      page-param-name: page
+      return-body-on-create: false
+      return-body-on-update: false
+eureka:
+  client:
+     serviceUrl:
+          defaultZone: http://localhost:1111/eureka/
