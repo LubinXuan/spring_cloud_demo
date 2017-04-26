@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <base href="/">
+    <title>微信测试任务</title>
+</head>
+<body>
+<button id="commit">提交</button><br>
+<label for="numbers">号码:</label><textarea id="numbers" ></textarea><br/>
+<label for="message">消息:</label><textarea id="message" ></textarea><br/>
+</body>
+<script src="js/common/jquery-1.11.1.min.js" type="application/javascript"></script>
+<script type="application/javascript" charset="utf-8">
+    $(function () {
+        var commit = $("#commit");
+        commit.bind("click",function () {
+            var numbers = $("#numbers").val();
+            var message = $("#message").val();
+            var data = {
+                "message":message,
+                "numbers":numbers.split("\n")
+            };
+            commit.attr("disabled","disabled");
+            $.ajax({
+                traditional: true,
+                type: "POST",
+                url: "tasks",
+                data: data,
+                contentType:"application/x-www-form-urlencoded",
+                success: function () {
+                    commit.removeAttr("disabled");
+                }
+            });
+        })
+    })
+</script>
+</html>
