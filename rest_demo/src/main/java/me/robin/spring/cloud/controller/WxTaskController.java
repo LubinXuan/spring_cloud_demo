@@ -28,11 +28,12 @@ public class WxTaskController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void post(@RequestParam("numbers") String[] numbers, @RequestParam("message") String message) {
+    public void post(@RequestParam("numbers") String[] numbers, @RequestParam("message") String message,@RequestParam(value = "interval",defaultValue = "50")int interval) {
         JSONObject task = new JSONObject();
         task.put("action", "sendMessage");
         task.put("numbers", numbers);
         task.put("message", message);
+        task.put("interval", interval);
         queue.offer(task);
     }
 
