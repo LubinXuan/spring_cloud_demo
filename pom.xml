@@ -26,9 +26,9 @@
 
     <repositories>
         <repository>
-            <id>nexus</id>
-            <name>Team Nexus Repository</name>
-            <url>http://10.2.30.30:8081/nexus/content/groups/public</url>
+            <id>nexus-aliyun</id>
+            <name>Nexus aliyun</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
         </repository>
     </repositories>
 

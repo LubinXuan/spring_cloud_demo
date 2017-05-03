@@ -7,3 +7,13 @@ eureka:
   client:
      serviceUrl:
           defaultZone: http://localhost:1111/eureka/
+
+netty:
+  so:
+    keep_alive: true
+    backlog: 50
+  port: 18080
+  boss:
+    threads: 1
+  worker:
+    threads: 32

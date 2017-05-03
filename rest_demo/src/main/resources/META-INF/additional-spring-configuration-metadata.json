@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "netty.port",
+      "type": "java.lang.String",
+      "description": "服务netty监听端口."
+    },
+    {
+      "name": "netty.boss.threads",
+      "type": "java.lang.String",
+      "description": "Netty IO Boss Thread Count."
+    }
+  ]
+}
