@@ -48,7 +48,7 @@ public class TaskServer {
                     if (null != task) {
                         try {
                             ClientManager.ChannelWrap channelWrap = clientManager.obtainIdleClient();
-                            channelWrap.getChannel().writeAndFlush(task.toJSONString());
+                            channelWrap.sendRequest(task.toJSONString());
                         } catch (InterruptedException e) {
                             TaskQueueManager.INS.returnTask(task);
                             throw e;

@@ -1,10 +1,13 @@
 package me.robin.spring.cloud.netty;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
+import io.netty.handler.timeout.IdleStateHandler;
+import io.netty.util.CharsetUtil;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -14,38 +17,17 @@ import javax.annotation.Resource;
  */
 @Component
 public class StringProtocolInitializer extends ChannelInitializer<SocketChannel> {
-
-    @Resource
-    StringDecoder stringDecoder;
-
-    @Resource
-    StringEncoder stringEncoder;
-
     @Resource
     ServerHandler serverHandler;
 
+    private static final ByteBuf HEARTBEAT_SEQUENCE = Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Heartbeat", CharsetUtil.UTF_8));
+
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
-        ChannelPipeline pipeline = socketChannel.pipeline();
-        pipeline.addLast("decoder", stringDecoder);
-        pipeline.addLast("handler", serverHandler);
-        pipeline.addLast("encoder", stringEncoder);
-    }
-
-    public StringDecoder getStringDecoder() {
-        return stringDecoder;
-    }
-
-    public void setStringDecoder(StringDecoder stringDecoder) {
-        this.stringDecoder = stringDecoder;
-    }
-
-    public StringEncoder getStringEncoder() {
-        return stringEncoder;
-    }
-
-    public void setStringEncoder(StringEncoder stringEncoder) {
-        this.stringEncoder = stringEncoder;
+        ChannelPipeline p = socketChannel.pipeline();
+        p.addLast(new IdleStateHandler(20, 0, 0));
+        p.addLast(new LengthFieldBasedFrameDecoder(512*1024, 0, 4, -4, 0));
+        p.addLast(serverHandler);
     }
 
     public ServerHandler getServerHandler() {

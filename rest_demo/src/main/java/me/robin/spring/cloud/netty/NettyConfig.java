@@ -80,14 +80,4 @@ public class NettyConfig {
         return new InetSocketAddress(tcpPort);
     }
 
-    @Bean(name = "stringEncoder")
-    public StringEncoder stringEncoder() {
-        return new StringEncoder();
-    }
-
-    @Bean(name = "stringDecoder")
-    public StringDecoder stringDecoder() {
-        return new StringDecoder();
-    }
-
 }
