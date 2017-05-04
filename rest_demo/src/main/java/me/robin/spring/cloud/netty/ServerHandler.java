@@ -21,6 +21,14 @@ public class ServerHandler extends CusHeartBeatHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(ServerHandler.class);
 
+    private static JSONObject login = new JSONObject();
+
+    static {
+        login.put("action", "login");
+        login.put("account", "18258837523");
+        login.put("password", "xlb900907");
+    }
+
     @Resource
     private ClientManager clientManager;
 
@@ -42,6 +50,8 @@ public class ServerHandler extends CusHeartBeatHandler {
             JSONObject report = JSON.parseObject(msg);
             logger.info("任务处理结果上报 {}", msg);
             clientManager.releaseIdleClient(report.getString("clientId"), ctx.channel());
+        } else if (StringUtils.equals(msg, "account")) {
+            NettyUtil.sendMessage(ctx, login.toString());
         }
     }
 

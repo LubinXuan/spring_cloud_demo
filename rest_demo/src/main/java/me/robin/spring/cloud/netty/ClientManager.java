@@ -1,23 +1,23 @@
 package me.robin.spring.cloud.netty;
 
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
-import io.netty.util.CharsetUtil;
-import io.netty.util.internal.StringUtil;
-import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.nio.charset.Charset;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Administrator on 2017-05-03.
  */
 @Component
 public class ClientManager {
+
+    private static final Logger logger = LoggerFactory.getLogger(ClientManager.class);
 
     private Map<String, ChannelWrap> channelMap = new ConcurrentHashMap<>();
 
@@ -29,7 +29,13 @@ public class ClientManager {
     }
 
     public ChannelWrap obtainIdleClient() throws InterruptedException {
-        ChannelWrap channelWrap = idleClientQueue.take();
+        ChannelWrap channelWrap = null;
+        while (null == channelWrap) {
+            channelWrap = idleClientQueue.poll(5, TimeUnit.SECONDS);
+            if (null == channelWrap) {
+                logger.info("客户端获取超时");
+            }
+        }
         this.channelMap.put(channelWrap.getClientId(), channelWrap);
         return channelWrap;
     }
@@ -49,26 +55,7 @@ public class ClientManager {
         }
 
         public void sendRequest(String msg) {
-            ByteBuf byteBuf = null;
-            try {
-                byte[] data = null;
-                if (!StringUtil.isNullOrEmpty(msg)) {
-                    data = msg.getBytes(Charset.forName("utf-8"));
-                }
-                byteBuf = channel.alloc().buffer();
-                byteBuf.retain();
-                int contentLength = null != data ? data.length : 0;
-                byteBuf.writeInt(5 + contentLength);
-                byteBuf.writeByte(CusHeartBeatHandler.CUSTOM_MSG);
-                if (null != data) {
-                    byteBuf.writeBytes(data, 0, data.length);
-                }
-                channel.writeAndFlush(byteBuf);
-            } finally {
-                if (null != byteBuf) {
-                    byteBuf.release();
-                }
-            }
+            NettyUtil.sendMessage(channel, msg);
         }
 
         public String getClientId() {
