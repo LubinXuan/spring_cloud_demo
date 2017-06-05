@@ -37,7 +37,8 @@
         <maven.settings.offline>true</maven.settings.offline>
         <maven.test.skip>true</maven.test.skip>
         <jdk.version>1.8</jdk.version>
-        <netty.version>4.1.6.Final</netty.version>
+        <netty.version>4.3.8.Final</netty.version>
+        <docker.image.prefix>robin</docker.image.prefix>
     </properties>
 
     <dependencyManagement>
