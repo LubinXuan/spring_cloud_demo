@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: user-repo
+  cloud:
+    config:
+      uri: http://127.0.0.1:19999
+      profile: dev
+      token: e83c4e76c957da6b77580e3b8237ca7622443491
+eureka:
+  client:
+     serviceUrl:
+          defaultZone: http://peer1:1111/eureka/

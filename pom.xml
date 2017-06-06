@@ -7,14 +7,14 @@
         <module>eureka_server</module>
         <module>rest_demo</module>
         <module>api-gateway</module>
-        <module>eureka_ribbon</module>
         <module>repo-test</module>
+        <module>config_server</module>
     </modules>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.4.5.RELEASE</version>
+        <version>1.5.3.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -37,7 +37,7 @@
         <maven.settings.offline>true</maven.settings.offline>
         <maven.test.skip>true</maven.test.skip>
         <jdk.version>1.8</jdk.version>
-        <netty.version>4.3.8.Final</netty.version>
+        <netty.version>4.1.6.Final</netty.version>
         <docker.image.prefix>robin</docker.image.prefix>
     </properties>
 
