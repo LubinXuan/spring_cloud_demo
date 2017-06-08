@@ -23,12 +23,17 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-
     <repositories>
         <repository>
-            <id>nexus-aliyun</id>
-            <name>Nexus aliyun</name>
-            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+            <id>nexus</id>
+            <name>thirdparty</name>
+            <url>http://192.168.0.152:8088/content/groups/public/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
         </repository>
     </repositories>
 
