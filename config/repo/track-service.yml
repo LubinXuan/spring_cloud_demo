@@ -3,9 +3,6 @@ sendCloud:
     appKey: 75c6t748-qtnc-h8by-j8tv-a7jw0llnqz
 
 growing_io:
-  secret: 10d497316aa5425d9e20b6f44e10ad7d
-  pub_secret: c505f81cfb2548cf97c55e0073499c2b
-  applicationId: 93d44a1dbf316ede
   tmp_file_store_dir: ./growing_io/
 
 
