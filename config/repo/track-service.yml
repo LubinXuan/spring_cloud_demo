@@ -3,6 +3,9 @@ sendCloud:
     appKey: 75c6t748-qtnc-h8by-j8tv-a7jw0llnqz
   emailApi: http://api.sendcloud.net/apiv2/mail/send
   smsApi: http://www.sendcloud.net/smsapi/send
+  createSmsTemplate: http://www.sendcloud.net/smsapi/addsms
+  submitSmsTemplate: http://www.sendcloud.net/smsapi/submitsms
+  checkSmsTemplate: http://www.sendcloud.net/smsapi/get
 
 short.url.base.host: http://xxx.xx/
 
