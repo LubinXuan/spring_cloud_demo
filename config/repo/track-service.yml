@@ -4,7 +4,10 @@ sendCloud:
 
 growing_io:
   secret: 10d497316aa5425d9e20b6f44e10ad7d
+  pub_secret: c505f81cfb2548cf97c55e0073499c2b
   applicationId: 93d44a1dbf316ede
+  tmp_file_store_dir: ./growing_io/
+
 
 short.url.base.host: http://xxx.xx/
 
@@ -16,3 +19,9 @@ spring:
   redis:
     host: 192.168.0.156
     port: 6380
+  datasource:
+    url: jdbc:mysql://192.168.0.154:3306/channel_database
+    username: channel
+    password: Channel!@#321
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
