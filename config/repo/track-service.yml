@@ -1,0 +1,16 @@
+sendCloud:
+  webHook:
+    appKey: 75c6t748-qtnc-h8by-j8tv-a7jw0llnqz
+  emailApi: http://api.sendcloud.net/apiv2/mail/send
+  smsApi: http://www.sendcloud.net/smsapi/send
+
+short.url.base.host: http://xxx.xx/
+
+elasticsearch:
+    clusterName: ES
+    clusterNodes: 127.0.0.1:9300
+
+spring:
+  redis:
+    host: 192.168.0.156
+    port: 6380
