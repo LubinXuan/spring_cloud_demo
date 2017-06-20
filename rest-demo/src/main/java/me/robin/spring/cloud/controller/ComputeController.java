@@ -70,7 +70,7 @@ public class ComputeController {
     }
 
     @RequestMapping("/test6")
-    public long sendEmail(){
-        return messageClient.sendEmail("LubinXuan_test_K9qkwf","lubin.xuan@qq.com","xuanlb2@grid.cn","系统管理员","邮件测试","邮件内容<a href=\"http://www.baidu.com\">点击</a>");
+    public void sendEmail(){
+        //return messageClient.sendEmail("LubinXuan_test_K9qkwf","lubin.xuan@qq.com","xuanlb2@grid.cn","系统管理员","邮件测试","邮件内容<a href=\"http://www.baidu.com\">点击</a>");
     }
 }

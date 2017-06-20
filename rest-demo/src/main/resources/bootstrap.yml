@@ -3,10 +3,10 @@ spring:
     name: compute-service
   cloud:
     config:
-      uri: http://127.0.0.1:19999
+      uri: http://dc-hadoop156:19999
       token: e83c4e76c957da6b77580e3b8237ca7622443491
 eureka:
   client:
      fetch-registry: true
      serviceUrl:
-          defaultZone: http://peer1:1111/eureka/
+          defaultZone: http://dc-hadoop156:5555/eureka/

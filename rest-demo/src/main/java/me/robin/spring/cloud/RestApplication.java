@@ -1,14 +1,25 @@
 package me.robin.spring.cloud;
 
+import com.worken.common.CustomWebMvcConfigurerAdapter;
+import com.worken.common.CustomWebMvcRegistrationsAdapter;
+import com.worken.common.WrapResponseBodyAdvice;
 import feign.Contract;
 import feign.MethodMetadata;
+import feign.RequestInterceptor;
 import feign.Util;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.web.WebMvcRegistrationsAdapter;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.cloud.netflix.feign.support.SpringMvcContract;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.MethodParameter;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.server.ServerHttpRequest;
+import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -33,8 +44,8 @@ public class RestApplication {
 
 
     @Bean
-    public Contract feignContract(){
-        return new SpringMvcContract(){
+    public Contract feignContract() {
+        return new SpringMvcContract() {
             @Override
             public List<MethodMetadata> parseAndValidatateMetadata(Class<?> targetType) {
                 Map<String, MethodMetadata> result = new LinkedHashMap<String, MethodMetadata>();
@@ -52,5 +63,26 @@ public class RestApplication {
                 return new ArrayList<MethodMetadata>(result.values());
             }
         };
+    }
+
+
+    @Bean
+    public RequestInterceptor requestInterceptor() {
+        return new FeignRequestInterceptor();
+    }
+
+    @Bean
+    public WebMvcRegistrationsAdapter webMvcRegistrationsAdapter() {
+        return new CustomWebMvcRegistrationsAdapter();
+    }
+
+    @Bean
+    public CustomWebMvcConfigurerAdapter webMvcConfigurationSupport() {
+        return new CustomWebMvcConfigurerAdapter();
+    }
+
+    @Bean
+    public ResponseBodyAdvice responseBodyAdvice(){
+        return new WrapResponseBodyAdvice();
     }
 }

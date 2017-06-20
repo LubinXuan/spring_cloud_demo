@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <modules>
         <module>eureka_server</module>
-        <module>rest_demo</module>
+        <module>rest-demo</module>
         <module>api-gateway</module>
         <module>repo-test</module>
         <module>config_server</module>
@@ -43,8 +43,33 @@
         <maven.test.skip>true</maven.test.skip>
         <jdk.version>1.8</jdk.version>
         <netty.version>4.1.6.Final</netty.version>
+        <spring.boot.version>1.5.3.RELEASE</spring.boot.version>
         <docker.image.prefix>robin</docker.image.prefix>
     </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-test</artifactId>
+            <version>${spring.boot.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.11</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
     <dependencyManagement>
         <dependencies>
@@ -60,6 +85,10 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
             <!-- 设置源文件编码方式 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

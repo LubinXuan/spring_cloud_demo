@@ -6,9 +6,3 @@ eureka:
     enabled: true
   instance:
     namespace: worken
-security:
-  basic:
-    enabled: true #开启认证
-  user:
-    name: admin
-    password: 123456

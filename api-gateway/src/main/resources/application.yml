@@ -2,9 +2,9 @@ spring:
   application:
     name: api-gateway
 server:
-  port: 5555
+  port: 5556
 eureka:
   client:
-     register-with-eureka: false
+     register-with-eureka: true
      serviceUrl:
-          defaultZone: http://peer1:1111/eureka/
+          defaultZone: http://dc-hadoop156:5555/eureka/

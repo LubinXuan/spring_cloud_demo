@@ -1,0 +1,6 @@
+server:
+  port: 5555
+eureka:
+  client:
+    serviceUrl:
+        defaultZone: http://dc-hadoop156:5555/eureka/
