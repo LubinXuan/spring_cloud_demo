@@ -8,7 +8,7 @@ sendCloud:
   updateSmsTemplate: http://www.sendcloud.net/smsapi/updatesms
 spring:
   datasource:
-    url: jdbc:mysql://192.168.0.154:3306/channel_database
+    url: jdbc:mysql://192.168.0.154:3306/channel_database?useUnicode=true&characterEncoding=utf8
     username: channel
     password: Channel!@#321
     type: com.alibaba.druid.pool.DruidDataSource

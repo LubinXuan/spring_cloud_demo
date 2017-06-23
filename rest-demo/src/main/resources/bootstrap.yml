@@ -6,6 +6,8 @@ spring:
       uri: http://dc-hadoop156:19999
       token: e83c4e76c957da6b77580e3b8237ca7622443491
 eureka:
+  instance:
+    hostname: 192.168.0.198
   client:
      fetch-registry: true
      serviceUrl:
