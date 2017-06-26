@@ -22,7 +22,6 @@ spring:
     producer:
       instanceName: message_send_service_producer_prd
     consumer:
-      instanceName: message_send_service_consumer_prd
       subscribe: EMAIL_TASK:*
 # 更多数据源
 custom:
