@@ -47,6 +47,9 @@ custom:
       password: Geeker!@#2017
       type: com.alibaba.druid.pool.DruidDataSource
 eureka:
+  instance:
+    metadata-map:
+      zone: dev
   client:
      serviceUrl:
         dev: http://dc-hadoop156:5555/eureka/
