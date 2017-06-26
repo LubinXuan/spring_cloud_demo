@@ -2,5 +2,9 @@ server:
   port: 5555
 eureka:
   client:
-    serviceUrl:
-        defaultZone: http://dc-hadoop156:5555/eureka/
+     serviceUrl:
+        prd: http://dc-hadoop156:5555/eureka/
+        dev: http://dc-hadoop156:5555/eureka/
+     region: hkdw
+     availability-zones:
+        hkdw: prd,dev
