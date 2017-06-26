@@ -37,8 +37,8 @@ eureka:
   client:
      serviceUrl:
         prd: http://dc-hadoop156:5555/eureka/
-      region: production-environment
-      availabilityZones:
+     region: production-environment
+     availabilityZones:
         production-environment: prd
 server:
   port: 8019
