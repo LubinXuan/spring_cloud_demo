@@ -49,7 +49,7 @@ custom:
 eureka:
   instance:
     metadata-map:
-      zone: dev
+      tag: dev
   client:
      serviceUrl:
         dev: http://dc-hadoop156:5555/eureka/
