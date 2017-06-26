@@ -6,4 +6,4 @@ eureka:
     enabled: true
   instance:
     namespace: worken
-    prefer-ip-address: true
+    prefer-ip-address: false
