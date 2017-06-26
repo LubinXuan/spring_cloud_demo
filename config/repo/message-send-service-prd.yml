@@ -36,6 +36,6 @@ custom:
       type: com.alibaba.druid.pool.DruidDataSource
 eureka:
   client:
-    region: development-environment
+    region: production-environment
     availabilityZones:
-      development-environment: dev
+      production-environment: prd
