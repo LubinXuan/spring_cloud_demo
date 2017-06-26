@@ -39,3 +39,5 @@ eureka:
     region: production-environment
     availabilityZones:
       production-environment: prd
+server:
+  port: 8019

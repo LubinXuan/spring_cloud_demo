@@ -39,3 +39,5 @@ eureka:
     region: development-environment
     availabilityZones:
       development-environment: dev
+server:
+  port: 8018
