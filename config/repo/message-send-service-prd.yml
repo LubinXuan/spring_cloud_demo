@@ -35,8 +35,10 @@ custom:
       type: com.alibaba.druid.pool.DruidDataSource
 eureka:
   client:
-    region: production-environment
-    availabilityZones:
-      production-environment: prd
+     serviceUrl:
+        prd: http://dc-hadoop156:5555/eureka/
+      region: production-environment
+      availabilityZones:
+        production-environment: prd
 server:
   port: 8019
