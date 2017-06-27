@@ -36,6 +36,9 @@ spring:
       instanceName: message_send_service_producer_prd
     consumer:
       subscribe: EMAIL_TASK:*,SMS_TASK:*
+      worker-max-subscribe:
+        'EMAIL_TASK:*': 10
+        'SMS_TASK:*': 10
 # 更多数据源
 custom:
   datasource:
