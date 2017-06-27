@@ -35,7 +35,7 @@ spring:
     producer:
       instanceName: message_send_service_producer
     consumer:
-      subscribe: EMAIL_TASK:*
+      subscribe: EMAIL_TASK:*,SMS_TASK:*
 # 更多数据源
 custom:
   datasource:
