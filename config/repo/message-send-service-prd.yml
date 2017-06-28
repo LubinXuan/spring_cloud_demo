@@ -64,4 +64,4 @@ server:
   port: 8019
 sms:
   default:
-    callback: http://tarck.grid9.cn:443/sms_proxy/callback
+    callback: http://tarck.grid9.cn:443/ts/yp/callback
