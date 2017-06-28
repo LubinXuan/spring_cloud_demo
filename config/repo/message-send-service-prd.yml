@@ -35,10 +35,11 @@ spring:
     producer:
       instanceName: message_send_service_producer_prd
     consumer:
-      subscribe: EMAIL_TASK:*,SMS_TASK:*
+      subscribe: EMAIL_TASK,SMS_TASK,SMS_STATUS_REPORT
       worker-max-subscribe:
-        'EMAIL_TASK:*': 10
-        'SMS_TASK:*': 10
+        EMAIL_TASK: 10
+        SMS_TASK: 10
+        SMS_STATUS_REPORT: 4
 # 更多数据源
 custom:
   datasource:
@@ -61,3 +62,6 @@ eureka:
         production-environment: prd
 server:
   port: 8019
+sms:
+  default:
+    callback: http://tarck.grid9.cn:443/sms_proxy/callback
