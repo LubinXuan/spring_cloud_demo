@@ -65,4 +65,4 @@ server:
   port: 8018
 sms:
   default:
-    callback: http://tarck.adfc.cn/yp/callback
+    callback: http://track.adfc.cn/yp/callback
