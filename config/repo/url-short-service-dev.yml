@@ -1,4 +1,6 @@
 url:
   host: http://m.adfc.cn/
+root:
+  domain: adfc.cn
 server:
   port: 5566
