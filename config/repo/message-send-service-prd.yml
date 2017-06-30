@@ -65,4 +65,4 @@ server:
   port: 8019
 sms:
   default:
-    callback: http://tarck.grid9.cn:443/ts/yp/callback
+    callback: http://track.adfc.cn/yp/callback
