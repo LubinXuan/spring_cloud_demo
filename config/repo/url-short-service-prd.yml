@@ -4,3 +4,8 @@ root:
   domain: adfc.cn
 server:
   port: 5567
+spring:
+  rocketMQ:
+    namesrvAddr: 192.168.0.156:9876
+    producer:
+      instanceName: url-short-server
