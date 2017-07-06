@@ -10,10 +10,10 @@ spring:
     producer:
       instanceName: url-short-server
   datasource:
-    name: geeker
-    url: jdbc:mysql://192.168.0.154:3306/geeker?useUnicode=true&characterEncoding=utf8
-    username: geeker
-    password: Geeker!@#2017
+    name: channel
+    url: jdbc:mysql://192.168.0.154:3306/channel_database?useUnicode=true&characterEncoding=utf8
+    username: channel
+    password: Channel!@#321
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
     filters: stat

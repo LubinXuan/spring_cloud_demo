@@ -8,4 +8,24 @@ spring:
   rocketMQ:
     namesrvAddr: 192.168.0.156:9876
     producer:
-      instanceName: url-short-server
+      instanceName: url-short-server\
+  datasource:
+    name: channel
+    url: jdbc:mysql://192.168.0.154:3306/channel_database?useUnicode=true&characterEncoding=utf8
+    username: channel
+    password: Channel!@#321
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
