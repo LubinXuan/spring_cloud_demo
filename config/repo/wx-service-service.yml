@@ -5,4 +5,4 @@ web:
     appid: wx782c26e4c19acffb
     imgTmp: ./header_tmp
     qr:
-      base: http://track.grid9.cn:443/qr/
+      base: http://geeker.worken.cn/wx/qr/
