@@ -1,11 +1,3 @@
-sendCloud:
-  emailApi: http://api.sendcloud.net/apiv2/mail/send
-  smsApi: http://www.sendcloud.net/smsapi/send
-  createSmsTemplate: http://www.sendcloud.net/smsapi/addsms
-  submitSmsTemplate: http://www.sendcloud.net/smsapi/submitsms
-  checkSmsTemplate: http://www.sendcloud.net/smsapi/get
-  deleteSmsTemplate: http://www.sendcloud.net/smsapi/deletesms
-  updateSmsTemplate: http://www.sendcloud.net/smsapi/updatesms
 spring:
   datasource:
     url: jdbc:mysql://192.168.0.154:3306/channel_database?useUnicode=true&characterEncoding=utf8
