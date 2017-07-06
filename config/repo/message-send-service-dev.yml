@@ -30,17 +30,6 @@ spring:
     host: 192.168.0.156
     port: 6380
     database: 2
-  rocketMQ:
-    namesrvAddr: 192.168.0.156:9876
-    producer:
-      instanceName: message_send_service_producer
-    consumer:
-      subscribe: EMAIL_TASK,SMS_TASK,SMS_STATUS_REPORT,EMAIL_STATUS_REPORT
-      worker-max-subscribe:
-        EMAIL_TASK: 10
-        SMS_TASK: 10
-        SMS_STATUS_REPORT: 4
-        EMAIL_STATUS_REPORT: 4
 # 更多数据源
 custom:
   datasource:
