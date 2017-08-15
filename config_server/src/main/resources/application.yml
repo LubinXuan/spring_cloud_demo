@@ -1,12 +1,18 @@
 server:
   port: 19999
 spring:
+  profiles:
+    active: subversion
   cloud:
     config:
       server:
-        git:
-          uri: https://github.com/LubinXuan/spring_cloud_demo
-          username: lubin.xuan@gmail.com
-          password: xlb900907
-          search-paths: config/repo
+        svn:
+          uri: http://192.168.0.161/repos/bigdata/产品开发/数聚客/code/trunk/java/cloud_config
+          username: xuanlubin
+          password: x900907
+#        git:
+#          uri: https://github.com/LubinXuan/spring_cloud_demo
+#          username: lubin.xuan@gmail.com
+#          password: xlb900907
+#          search-paths: config/repo
       token: e83c4e76c957da6b77580e3b8237ca7622443491
