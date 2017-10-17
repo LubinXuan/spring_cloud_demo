@@ -1,24 +1,23 @@
 package me.robin.spring.cloud;
 
-import com.worken.common.CustomWebMvcConfigurerAdapter;
-import com.worken.common.CustomWebMvcRegistrationsAdapter;
-import com.worken.common.WrapResponseBodyAdvice;
-import feign.Contract;
-import feign.MethodMetadata;
-import feign.RequestInterceptor;
-import feign.Util;
+import com.worken.common.utils.spring.CustomWebMvcConfigurerAdapter;
+import com.worken.common.utils.spring.CustomWebMvcRegistrationsAdapter;
+import com.worken.common.utils.spring.WrapResponseBodyAdvice;
+import feign.*;
+import me.robin.spring.cloud.feign.SpringFeignInvocationHandlerFactory;
+import me.robin.spring.cloud.utils.security.MyMethodSecurityConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.WebMvcRegistrationsAdapter;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
+import org.springframework.boot.web.servlet.ErrorPage;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.cloud.netflix.feign.support.SpringMvcContract;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.MethodParameter;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.server.ServerHttpRequest;
-import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import java.lang.reflect.Method;
@@ -34,8 +33,10 @@ import static feign.Util.checkState;
  * Created by xuanlubin on 2017/4/7.
  */
 @SpringBootApplication
-@EnableDiscoveryClient
+//@EnableDiscoveryClient
 @EnableFeignClients
+//@EnableGlobalMethodSecurity(securedEnabled = true)
+@Import(MyMethodSecurityConfig.class)
 public class RestApplication {
 
     public static void main(String[] args) {
@@ -65,6 +66,16 @@ public class RestApplication {
         };
     }
 
+    @Bean
+    public InvocationHandlerFactory invocationHandlerFactory() {
+        return new SpringFeignInvocationHandlerFactory();
+    }
+
+    @Bean
+    @Scope("prototype")
+    public Feign.Builder feignBuilder(InvocationHandlerFactory invocationHandlerFactory) {
+        return Feign.builder().invocationHandlerFactory(invocationHandlerFactory).retryer(Retryer.NEVER_RETRY);
+    }
 
     @Bean
     public RequestInterceptor requestInterceptor() {
@@ -78,11 +89,26 @@ public class RestApplication {
 
     @Bean
     public CustomWebMvcConfigurerAdapter webMvcConfigurationSupport() {
-        return new CustomWebMvcConfigurerAdapter();
+        return new CustomWebMvcConfigurerAdapter(){
+            @Override
+            public void addInterceptors(InterceptorRegistry registry) {
+                super.addInterceptors(registry);
+            }
+        };
     }
 
     @Bean
-    public ResponseBodyAdvice responseBodyAdvice(){
-        return new WrapResponseBodyAdvice();
+    public ResponseBodyAdvice responseBodyAdvice() {
+        return new WrapResponseBodyAdvice(null);
+    }
+
+    @Bean
+    public EmbeddedServletContainerCustomizer containerCustomizer() {
+        return container -> {
+            HttpStatus[] globalErrorStatuses = new HttpStatus[]{HttpStatus.UNAUTHORIZED, HttpStatus.INTERNAL_SERVER_ERROR};
+            for (HttpStatus status : globalErrorStatuses) {
+                container.addErrorPages(new ErrorPage(status, "/global/error/" + status.value()));
+            }
+        };
     }
 }

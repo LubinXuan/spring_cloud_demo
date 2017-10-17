@@ -2,6 +2,7 @@ package me.robin.spring.cloud.netty;
 
 import com.alibaba.fastjson.JSONObject;
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import me.robin.spring.cloud.tasks.TaskQueueManager;
 import org.slf4j.Logger;
@@ -47,8 +48,9 @@ public class TaskServer {
                     JSONObject task = TaskQueueManager.INS.taskTask(-1);
                     if (null != task) {
                         try {
-                            ClientManager.ChannelWrap channelWrap = clientManager.obtainIdleClient();
-                            channelWrap.sendRequest(task.toJSONString());
+                            Channel channel = clientManager.obtainIdleClient();
+                            logger.info("下发任务:{} {}", channel.remoteAddress(), task);
+                            NettyUtil.sendMessage(channel, task.toJSONString());
                         } catch (InterruptedException e) {
                             TaskQueueManager.INS.returnTask(task);
                             throw e;

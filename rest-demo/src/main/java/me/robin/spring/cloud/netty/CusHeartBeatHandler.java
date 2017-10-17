@@ -5,8 +5,13 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleStateEvent;
+import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by Administrator on 2017-05-03.
@@ -17,7 +22,8 @@ public abstract class CusHeartBeatHandler extends SimpleChannelInboundHandler<By
     public static final byte PONG_MSG = 2;
     public static final byte CUSTOM_MSG = 3;
     protected String name;
-    private int heartbeatCount = 0;
+    private Map<Channel, MutablePair<AtomicInteger, AtomicInteger>> countMap = new ConcurrentHashMap<>();
+
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
@@ -30,7 +36,7 @@ public abstract class CusHeartBeatHandler extends SimpleChannelInboundHandler<By
             } else {
                 handleData(ctx, msg);
             }
-        }finally {
+        } finally {
             msg.resetReaderIndex();
         }
     }
@@ -42,8 +48,8 @@ public abstract class CusHeartBeatHandler extends SimpleChannelInboundHandler<By
         buf.writeInt(5);
         buf.writeByte(PING_MSG);
         context.channel().writeAndFlush(buf);
-        heartbeatCount++;
-        System.out.println(name + " sent ping msg to " + context.channel().remoteAddress() + ", count: " + heartbeatCount);
+        AtomicInteger count = countMap.get(context.channel()).getRight();
+        System.out.println(name + " sent ping msg to " + context.channel().remoteAddress() + ", count: " + count.incrementAndGet());
     }
 
     private void sendPongMsg(ChannelHandlerContext context) {
@@ -51,14 +57,14 @@ public abstract class CusHeartBeatHandler extends SimpleChannelInboundHandler<By
         buf.writeInt(5);
         buf.writeByte(PONG_MSG);
         context.channel().writeAndFlush(buf);
-        heartbeatCount++;
-        System.out.println(name + " sent pong msg to " + context.channel().remoteAddress() + ", count: " + heartbeatCount);
+        AtomicInteger count = countMap.get(context.channel()).getLeft();
+        System.out.println(name + " sent pong msg to " + context.channel().remoteAddress() + ", count: " + count.incrementAndGet());
     }
 
-    private void sendBuf(ChannelHandlerContext context,ByteBuf byteBuf){
+    private void sendBuf(ChannelHandlerContext context, ByteBuf byteBuf) {
         try {
             context.channel().writeAndFlush(byteBuf);
-        }finally {
+        } finally {
 
         }
     }
@@ -85,11 +91,13 @@ public abstract class CusHeartBeatHandler extends SimpleChannelInboundHandler<By
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        countMap.put(ctx.channel(), new MutablePair<>(new AtomicInteger(0), new AtomicInteger(0)));
         System.err.println("---" + ctx.channel().remoteAddress() + " is active---");
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        countMap.remove(ctx.channel());
         System.err.println("---" + ctx.channel().remoteAddress() + " is inactive---");
     }
 

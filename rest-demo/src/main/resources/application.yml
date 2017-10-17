@@ -1,2 +1,14 @@
 server:
   port: 2223
+security:
+  user:
+    name: user
+    password: 123456
+logging:
+  level:
+    root: info
+jwt:
+  header: Authorization
+  secret: FTVZW4TVMa9kjxNKutN0BIn1LvvBLyZQMCc7RJXZBPo
+  expiration: 3600
+  tokenHead: "Bearer "

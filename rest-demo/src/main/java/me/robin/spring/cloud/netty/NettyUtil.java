@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.internal.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import java.nio.charset.Charset;
 
@@ -19,7 +20,7 @@ public class NettyUtil {
         ByteBuf byteBuf = null;
         try {
             byte[] data = null;
-            if (!StringUtil.isNullOrEmpty(message)) {
+            if (StringUtils.isNotBlank(message)) {
                 data = message.getBytes(Charset.forName("utf-8"));
             }
 

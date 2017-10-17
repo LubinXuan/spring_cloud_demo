@@ -25,8 +25,10 @@ public class ServerHandler extends CusHeartBeatHandler {
 
     static {
         login.put("action", "login");
-        login.put("account", "18258837523");
-        login.put("password", "xlb900907");
+        //login.put("account", "18258837523");
+        //login.put("password", "Xlb900907");
+        login.put("account", "18958159345");
+        login.put("password", "Xxx123456");
     }
 
     @Resource
@@ -42,7 +44,7 @@ public class ServerHandler extends CusHeartBeatHandler {
     }
 
     private void process(ChannelHandlerContext ctx, String msg) throws Exception {
-        logger.info("收到指令:{}", msg);
+        logger.info("收到客户端消息:{}", msg);
         if (StringUtils.startsWith(msg, "register:")) {
             String clientId = StringUtils.substringAfter(msg, "register:");
             clientManager.registerClient(clientId, ctx.channel());
@@ -56,10 +58,17 @@ public class ServerHandler extends CusHeartBeatHandler {
     }
 
     @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        super.channelInactive(ctx);
+        clientManager.removeClient(ctx.channel());
+        ctx.channel().close();
+    }
+
+    @Override
     protected void handleReaderIdle(ChannelHandlerContext ctx) {
         super.handleReaderIdle(ctx);
-        System.err.println("---client " + ctx.channel().remoteAddress().toString() + " reader timeout, close it---");
-        ctx.close();
+        //System.err.println("---client " + ctx.channel().remoteAddress().toString() + " reader timeout, close it---");
+        //ctx.close();
     }
 
     /*@Override
