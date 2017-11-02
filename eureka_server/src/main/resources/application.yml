@@ -24,6 +24,20 @@ eureka:
 
 ---
 spring:
+  profiles: test
+server:
+  port: 5556
+eureka:
+  client:
+     serviceUrl:
+        prd: http://dc-hadoop156:5556/eureka/
+        dev: http://dc-hadoop156:5556/eureka/
+     region: hkdw
+     availability-zones:
+        hkdw: prd,dev
+
+---
+spring:
   profiles: peer1
 server:
   port: 1111
