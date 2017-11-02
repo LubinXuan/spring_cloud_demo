@@ -11,6 +11,9 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 @SpringBootApplication
 public class EurekaDiscovery {
     public static void main(String[] args) {
+        if (args.length > 0) {
+            System.setProperty("spring.profiles.active", args[0]);
+        }
         SpringApplication.run(EurekaDiscovery.class, args);
     }
 }
