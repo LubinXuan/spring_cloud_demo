@@ -4,6 +4,7 @@ import com.worken.common.utils.spring.CustomWebMvcConfigurerAdapter;
 import com.worken.common.utils.spring.CustomWebMvcRegistrationsAdapter;
 import com.worken.common.utils.spring.WrapResponseBodyAdvice;
 import feign.*;
+import lombok.extern.slf4j.Slf4j;
 import me.robin.spring.cloud.feign.SpringFeignInvocationHandlerFactory;
 import me.robin.spring.cloud.utils.security.MyMethodSecurityConfig;
 import org.springframework.boot.SpringApplication;
@@ -19,6 +20,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+import org.springframework.web.socket.*;
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
+import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
+import org.springframework.web.socket.handler.AbstractWebSocketHandler;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -35,9 +41,11 @@ import static feign.Util.checkState;
 @SpringBootApplication
 //@EnableDiscoveryClient
 @EnableFeignClients
+@EnableWebSocket
 //@EnableGlobalMethodSecurity(securedEnabled = true)
 @Import(MyMethodSecurityConfig.class)
-public class RestApplication {
+@Slf4j
+public class RestApplication implements WebSocketConfigurer {
 
     public static void main(String[] args) {
         SpringApplication.run(RestApplication.class, args);
@@ -89,7 +97,7 @@ public class RestApplication {
 
     @Bean
     public CustomWebMvcConfigurerAdapter webMvcConfigurationSupport() {
-        return new CustomWebMvcConfigurerAdapter(){
+        return new CustomWebMvcConfigurerAdapter() {
             @Override
             public void addInterceptors(InterceptorRegistry registry) {
                 super.addInterceptors(registry);
@@ -110,5 +118,28 @@ public class RestApplication {
                 container.addErrorPages(new ErrorPage(status, "/global/error/" + status.value()));
             }
         };
+    }
+
+    @Override
+    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+        registry.addHandler(new AbstractWebSocketHandler() {
+
+            @Override
+            public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+                super.afterConnectionEstablished(session);
+            }
+
+            @Override
+            protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+                log.info("接收到消息: {} {}  {}", this, session.getPrincipal().getName(), message.getPayload());
+                TextMessage _message = new TextMessage("Get Message " + message.getPayload());
+                session.sendMessage(_message);
+            }
+
+            @Override
+            public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+                super.afterConnectionClosed(session, status);
+            }
+        }, "/socket");
     }
 }

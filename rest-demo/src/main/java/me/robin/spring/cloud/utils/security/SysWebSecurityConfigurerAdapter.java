@@ -57,7 +57,7 @@ public class SysWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapte
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
-        auth.authenticationProvider(ldapAuthenticationProvider);
+        //auth.authenticationProvider(ldapAuthenticationProvider);
         auth.authenticationProvider(authenticationProvider);
     }
 

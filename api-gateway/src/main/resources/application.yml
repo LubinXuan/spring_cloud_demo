@@ -5,6 +5,6 @@ server:
   port: 5556
 eureka:
   client:
-     register-with-eureka: true
+     register-with-eureka: false
      serviceUrl:
           defaultZone: http://dc-hadoop156:5555/eureka/

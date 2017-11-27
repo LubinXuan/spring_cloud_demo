@@ -5,6 +5,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleStateEvent;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -16,6 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by Administrator on 2017-05-03.
  */
+@Slf4j
 public abstract class CusHeartBeatHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
     public static final byte PING_MSG = 1;
@@ -23,7 +25,11 @@ public abstract class CusHeartBeatHandler extends SimpleChannelInboundHandler<By
     public static final byte CUSTOM_MSG = 3;
     protected String name;
     private Map<Channel, MutablePair<AtomicInteger, AtomicInteger>> countMap = new ConcurrentHashMap<>();
+    private boolean sendPong = true;
 
+    public CusHeartBeatHandler(boolean sendPong) {
+        this.sendPong = sendPong;
+    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
@@ -32,8 +38,8 @@ public abstract class CusHeartBeatHandler extends SimpleChannelInboundHandler<By
             if (msg.getByte(4) == PING_MSG) {
                 sendPongMsg(ctx);
             } else if (msg.getByte(4) == PONG_MSG) {
-                System.out.println(name + " get pong msg from " + ctx.channel().remoteAddress());
-            } else {
+                log.info(name + " get pong msg from " + ctx.channel().remoteAddress());
+            } else if (msg.getByte(4) == CUSTOM_MSG) {
                 handleData(ctx, msg);
             }
         } finally {
@@ -49,16 +55,19 @@ public abstract class CusHeartBeatHandler extends SimpleChannelInboundHandler<By
         buf.writeByte(PING_MSG);
         context.channel().writeAndFlush(buf);
         AtomicInteger count = countMap.get(context.channel()).getRight();
-        System.out.println(name + " sent ping msg to " + context.channel().remoteAddress() + ", count: " + count.incrementAndGet());
+        log.debug(name + " sent ping msg to " + context.channel().remoteAddress() + ", count: " + count.incrementAndGet());
     }
 
     private void sendPongMsg(ChannelHandlerContext context) {
+        if (!sendPong) {
+            return;
+        }
         ByteBuf buf = context.alloc().buffer(5);
         buf.writeInt(5);
         buf.writeByte(PONG_MSG);
         context.channel().writeAndFlush(buf);
         AtomicInteger count = countMap.get(context.channel()).getLeft();
-        System.out.println(name + " sent pong msg to " + context.channel().remoteAddress() + ", count: " + count.incrementAndGet());
+        log.debug(name + " sent pong msg to " + context.channel().remoteAddress() + ", count: " + count.incrementAndGet());
     }
 
     private void sendBuf(ChannelHandlerContext context, ByteBuf byteBuf) {
@@ -92,24 +101,24 @@ public abstract class CusHeartBeatHandler extends SimpleChannelInboundHandler<By
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         countMap.put(ctx.channel(), new MutablePair<>(new AtomicInteger(0), new AtomicInteger(0)));
-        System.err.println("---" + ctx.channel().remoteAddress() + " is active---");
+        log.debug("---" + ctx.channel().remoteAddress() + " is active---");
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         countMap.remove(ctx.channel());
-        System.err.println("---" + ctx.channel().remoteAddress() + " is inactive---");
+        log.debug("---" + ctx.channel().remoteAddress() + " is inactive---");
     }
 
     protected void handleReaderIdle(ChannelHandlerContext ctx) {
-        System.err.println("---READER_IDLE---");
+        log.debug("---READER_IDLE---");
     }
 
     protected void handleWriterIdle(ChannelHandlerContext ctx) {
-        System.err.println("---WRITER_IDLE---");
+        log.debug("---WRITER_IDLE---");
     }
 
     protected void handleAllIdle(ChannelHandlerContext ctx) {
-        System.err.println("---ALL_IDLE---");
+        log.debug("---ALL_IDLE---");
     }
 }

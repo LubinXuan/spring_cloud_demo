@@ -20,13 +20,11 @@ public class StringProtocolInitializer extends ChannelInitializer<SocketChannel>
     @Resource
     ServerHandler serverHandler;
 
-    private static final ByteBuf HEARTBEAT_SEQUENCE = Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Heartbeat", CharsetUtil.UTF_8));
-
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
         ChannelPipeline p = socketChannel.pipeline();
         p.addLast(new IdleStateHandler(20, 0, 0));
-        p.addLast(new LengthFieldBasedFrameDecoder(512*1024, 0, 4, -4, 0));
+        p.addLast(new LengthFieldBasedFrameDecoder(512 * 1024, 0, 4, -4, 0));
         p.addLast(serverHandler);
     }
 

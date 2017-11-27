@@ -8,10 +8,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Optional;
 
 /**
  * Created by Lubin.Xuan on 2017-09-25.
@@ -65,8 +68,14 @@ public class JwtTokenUtil {
         if (authHeader != null && authHeader.startsWith(tokenHead)) {
             return authHeader.substring(tokenHead.length());
         } else {
-            return null;
+            if (null != request.getCookies()) {
+                Optional<Cookie> cookie = Arrays.stream(request.getCookies()).filter(c -> StringUtils.equals("token", c.getName())).findAny();
+                if (cookie.isPresent()) {
+                    return cookie.get().getValue();
+                }
+            }
         }
+        return null;
     }
 
     public void addAuthHeader(HttpServletResponse response, String token) {

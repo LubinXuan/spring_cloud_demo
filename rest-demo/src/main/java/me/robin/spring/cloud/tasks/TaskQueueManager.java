@@ -19,8 +19,6 @@ public enum TaskQueueManager {
 
     private final IdService idService;
 
-    private final AtomicLong id = new AtomicLong(0);
-
     TaskQueueManager() {
         this.idService = new IdService();
     }
@@ -45,4 +43,5 @@ public enum TaskQueueManager {
             return this.queue.poll(timeout, TimeUnit.MILLISECONDS);
         }
     }
+
 }

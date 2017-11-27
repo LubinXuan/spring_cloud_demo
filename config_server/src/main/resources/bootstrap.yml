@@ -1,7 +1,3 @@
 spring:
   application:
     name: config-server
-eureka:
-  client:
-     serviceUrl:
-          defaultZone: http://dc-hadoop156:5555/eureka/

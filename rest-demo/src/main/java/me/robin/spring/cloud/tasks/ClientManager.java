@@ -1,4 +1,4 @@
-package me.robin.spring.cloud.netty;
+package me.robin.spring.cloud.tasks;
 
 import io.netty.channel.Channel;
 import org.apache.commons.lang3.StringUtils;
@@ -50,9 +50,21 @@ public class ClientManager {
         return channelMap.get(channelId);
     }
 
+    public String obtainIdleClient(int timeout) throws InterruptedException {
+        return idleClientQueue.poll(timeout, TimeUnit.SECONDS);
+    }
+
     public void releaseIdleClient(String clientId, Channel channel) {
         this.channelMap.put(clientId, channel);
         this.channelIdMap.put(channel, clientId);
         this.idleClientQueue.offer(clientId);
+    }
+
+    public Channel getClientById(String clientId) {
+        return this.channelMap.get(clientId);
+    }
+
+    public String getClientId(Channel channel) {
+        return this.channelIdMap.get(channel);
     }
 }

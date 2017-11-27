@@ -4,6 +4,9 @@ import com.alibaba.fastjson.JSONObject;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
+import me.robin.spring.cloud.Task;
+import me.robin.spring.cloud.tasks.ClientManager;
 import me.robin.spring.cloud.tasks.TaskQueueManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +36,9 @@ public class TaskServer {
     @Resource
     private ClientManager clientManager;
 
+    @Resource
+    private ServerHandler serverHandler;
+
     private ChannelFuture serverChannelFuture;
 
     private Thread taskDispatchThread;
@@ -47,11 +53,25 @@ public class TaskServer {
                 try {
                     JSONObject task = TaskQueueManager.INS.taskTask(-1);
                     if (null != task) {
+                        ClientRspHandler rspHandler = (ClientRspHandler) task.remove(ClientRspHandler.class.getName());
                         try {
                             Channel channel = clientManager.obtainIdleClient();
                             logger.info("下发任务:{} {}", channel.remoteAddress(), task);
-                            NettyUtil.sendMessage(channel, task.toJSONString());
+                            if (null != rspHandler) {
+                                serverHandler.registerRspHandler(task.getString(Task.ID), rspHandler);
+                            }
+                            ChannelFuture channelFuture = NettyUtil.sendMessage(channel, task.toJSONString());
+                            channelFuture.addListener((ChannelFutureListener) channelFuture1 -> {
+                                if (channelFuture1.isSuccess()) {
+                                    logger.info("任务下发成功:{} {}", channel.remoteAddress(), task);
+                                } else if (channelFuture1.cause() != null) {
+                                    logger.warn("任务下发异常", channelFuture1.cause());
+                                }
+                            });
                         } catch (InterruptedException e) {
+                            if (null != rspHandler) {
+                                task.put(ClientRspHandler.class.getName(), rspHandler);
+                            }
                             TaskQueueManager.INS.returnTask(task);
                             throw e;
                         }

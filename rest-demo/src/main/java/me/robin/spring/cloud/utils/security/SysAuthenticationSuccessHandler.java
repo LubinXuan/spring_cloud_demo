@@ -10,6 +10,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -30,6 +31,9 @@ public class SysAuthenticationSuccessHandler implements AuthenticationSuccessHan
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         JwtTokenUtil.TokenData tokenData = jwtTokenUtil.generateToken((UserDetails) authentication.getPrincipal());
         String redirectUrl = request.getParameter("redirectUrl");
+        Cookie cookie = new Cookie("token", tokenData.getToken());
+        cookie.setPath("/");
+        response.addCookie(cookie);
         if (StringUtils.isNotBlank(redirectUrl)) {
             String attach = "token=" + URLEncoder.encode(tokenData.getToken(), "utf-8") + "&expire=" + tokenData.getExpire().getTime();
             String targetUrl;

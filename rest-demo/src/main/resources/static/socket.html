@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script>
+
+</head>
+<body>
+
+</body>
+
+<script type="text/javascript">
+    var ws = new WebSocket("ws://192.168.5.5:2223/socket");
+    var count = 0;
+    ws.onopen = function () {
+        console.log("Open");
+        ws.send("OK")
+    };
+    ws.onmessage = function (event) {
+        console.log(event.data);
+        setTimeout(function () {
+            ws.send("Test" + (count++));
+        }, 2000);
+    };
+    ws.onclose = function (event) {
+        console.log("Closed")
+    };
+</script>
+
+</html>
