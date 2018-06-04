@@ -1,0 +1,38 @@
+Configutation:
+  status: warn
+
+  Properties:
+    Property:
+      - name: profile
+        value: ${sys:spring.profiles.active}
+      - name: application.name
+        value: eureka_server
+
+  Appenders:
+    Console:
+      name: CONSOLE
+      target: SYSTEM_OUT
+      PatternLayout:
+        Pattern: "[%d{HH:mm:ss:SSS}] [%t] [%p] - %C[%M:%L] - %m%n"
+    RollingFile:
+      - name: APPLICATION
+        fileName: ./logs/${application.name}_${profile}/info.log
+        filePattern: "./logs/${application.name}_${spring.profiles.active}/%d{yyyy-MM-dd}/info-%i.log"
+        PatternLayout:
+          Pattern: "[%d{HH:mm:ss:SSS}] [%t] [%p] - %C[%M:%L] - %m%n"
+        policies:
+          TimeBasedTriggeringPolicy:
+            interval: 1
+            modulate: true
+          SizeBasedTriggeringPolicy:
+            size: "100 MB"
+
+  Loggers:
+      Root:
+        level: info
+        AppenderRef:
+          - ref: CONSOLE
+          - ref: APPLICATION
+      Logger:
+        - name: org.springframework
+          level: info

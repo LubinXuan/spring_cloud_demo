@@ -8,3 +8,5 @@ eureka:
      register-with-eureka: false
      serviceUrl:
           defaultZone: http://dc-hadoop156:5555/eureka/
+zuul:
+  sensitive-headers:
