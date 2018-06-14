@@ -1,5 +1,6 @@
 package me.robin.cloud;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.netflix.eureka.server.EurekaServerConfigBean;
@@ -19,6 +20,8 @@ import java.util.Set;
 @Lazy(false)
 public class RemoteRegionWhiteListConfigureService implements EnvironmentAware {
 
+    private static final String GLOBAL_REMOTE_APP_WHITE_LIST = "global";
+
     private static final Logger logger = LoggerFactory.getLogger(RemoteRegionWhiteListConfigureService.class);
 
     //@Value()
@@ -35,13 +38,13 @@ public class RemoteRegionWhiteListConfigureService implements EnvironmentAware {
         for (Map.Entry<String, String> entry : eurekaServerConfig.getRemoteRegionUrlsWithName().entrySet()) {
             loadAppWhiteListConfig(entry.getKey());
         }
-        loadAppWhiteListConfig("global");
+        loadAppWhiteListConfig(GLOBAL_REMOTE_APP_WHITE_LIST);
     }
 
     private void loadAppWhiteListConfig(String regionName) {
         String whiteListKey = getWhiteListKey(regionName);
         Set<String> list = redisTemplate.opsForSet().members(whiteListKey);
-        if (list.isEmpty()) {
+        if (list.isEmpty() && !StringUtils.equals(regionName, GLOBAL_REMOTE_APP_WHITE_LIST)) {
             return;
         }
         if (!eurekaServerConfig.getRemoteRegionAppWhitelist().containsKey(environmentName)) {
@@ -58,7 +61,7 @@ public class RemoteRegionWhiteListConfigureService implements EnvironmentAware {
     public Set<String> getAppWhiteList(String regionName) {
         Set<String> appWhiteList = eurekaServerConfig.getRemoteRegionAppWhitelist(regionName);
         if (null == appWhiteList) {
-            appWhiteList = eurekaServerConfig.getRemoteRegionAppWhitelist("global");
+            appWhiteList = eurekaServerConfig.getRemoteRegionAppWhitelist(GLOBAL_REMOTE_APP_WHITE_LIST);
         }
         if (null == appWhiteList) {
             appWhiteList = Collections.emptySet();
