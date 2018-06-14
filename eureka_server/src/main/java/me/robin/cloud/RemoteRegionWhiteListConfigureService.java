@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 @Lazy(false)
@@ -34,7 +35,10 @@ public class RemoteRegionWhiteListConfigureService implements EnvironmentAware {
     private StringRedisTemplate redisTemplate;
 
     private void init() {
-        logger.info("开始初始化{}黑名单设置");
+        if (null == eurekaServerConfig.getRemoteRegionAppWhitelist()) {
+            eurekaServerConfig.setRemoteRegionAppWhitelist(new ConcurrentHashMap<>());
+        }
+        logger.info("开始初始化[{}]黑名单设置", environmentName);
         for (Map.Entry<String, String> entry : eurekaServerConfig.getRemoteRegionUrlsWithName().entrySet()) {
             loadAppWhiteListConfig(entry.getKey());
         }
