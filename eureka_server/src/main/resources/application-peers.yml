@@ -1,0 +1,40 @@
+---
+spring:
+  profiles: peer1
+server:
+  port: 1111
+eureka:
+  instance:
+    hostname: peer1
+  client:
+    serviceUrl:
+        defaultZone: http://peer2:1112/eureka/,http://peer3:1113/eureka/
+    region: peer1
+  server:
+    remote-region-urls-with-name:
+      hkdw: http://dc-hadoop156:5555/eureka/
+---
+spring:
+  profiles: peer2
+server:
+  port: 1112
+eureka:
+  instance:
+    hostname: peer2
+  client:
+    serviceUrl:
+        defaultZone: http://peer3:1113/eureka/,http://peer1:1111/eureka/
+    region: peer2
+
+---
+spring:
+  profiles: peer3
+server:
+  port: 1113
+eureka:
+  instance:
+    hostname: peer3
+  client:
+    serviceUrl:
+        defaultZone: http://peer1:1111/eureka/,http://peer2:1112/eureka/
+    region: peer3
