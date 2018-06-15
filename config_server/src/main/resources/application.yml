@@ -1,8 +1,41 @@
 server:
   port: 19999
 spring:
-  profiles:
-    active: subversion
+  cloud:
+    config:
+      token: e83c4e76c957da6b77580e3b8237ca7622443491
+encrypt:
+  key: e83c4e76c957da6b77580e3b8237ca7622443491
+ip-white-list:
+  ips:
+#服务器环境可以直接访问配置数据,其他环境需要使用token获取数据
+    - 192.168.0.152
+    - 192.168.0.153
+    - 192.168.0.154
+    - 192.168.0.155
+    - 192.168.0.156
+    - 192.168.0.157
+    - 192.168.0.158
+    - 192.168.0.159
+    - 192.168.0.160
+    - 192.168.0.161
+    - 127.0.0.1
+
+
+---
+spring:
+  profiles: git
+  cloud:
+    config:
+      server:
+        git:
+          uri: http://192.168.0.161:10086/xuanlubin/spring_config_store.git
+          username: xuanlubin
+          password: Abc123456
+
+---
+spring:
+  profiles: subversion
   cloud:
     config:
       server:
@@ -10,9 +43,3 @@ spring:
           uri: http://192.168.0.161/repos/bigdata/产品开发/数聚客/code/trunk/java/cloud_config
           username: xuanlubin
           password: x900907
-#        git:
-#          uri: https://github.com/LubinXuan/spring_cloud_demo
-#          username: lubin.xuan@gmail.com
-#          password: xlb900907
-#          search-paths: config/repo
-      token: e83c4e76c957da6b77580e3b8237ca7622443491

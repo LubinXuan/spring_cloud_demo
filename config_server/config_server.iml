@@ -119,6 +119,8 @@
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:1.5.3.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-actuator:1.5.3.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:4.3.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-configuration-processor:1.5.3.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: com.vaadin.external.google:android-json:0.0.20131108.vaadin1" level="project" />
     <orderEntry type="library" name="Maven: org.tmatesoft.svnkit:svnkit:1.8.10" level="project" />
     <orderEntry type="library" name="Maven: com.jcraft:jsch.agentproxy.svnkit-trilead-ssh2:0.0.7" level="project" />
     <orderEntry type="library" name="Maven: com.jcraft:jsch.agentproxy.core:0.0.7" level="project" />

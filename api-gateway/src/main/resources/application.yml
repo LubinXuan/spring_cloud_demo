@@ -1,12 +1,37 @@
 spring:
   application:
     name: api-gateway
+eureka:
+  client:
+     register-with-eureka: false
+zuul:
+  sensitive-headers:
+
+---
+spring:
+  profiles: default
 server:
   port: 5556
 eureka:
   client:
-     register-with-eureka: false
-     serviceUrl:
-          defaultZone: http://dc-hadoop156:5555/eureka/
-zuul:
-  sensitive-headers:
+    region: product-environment
+
+---
+spring:
+  profiles: test
+server:
+  port: 5557
+eureka:
+  client:
+    region: develop-environment
+    fetch-remote-regions-registry: product-environment
+
+---
+spring:
+  profiles: release
+server:
+  port: 5558
+eureka:
+  client:
+    region: release-environment
+    fetch-remote-regions-registry: product-environment
