@@ -29,7 +29,7 @@ spring:
     config:
       server:
         git:
-          uri: http://192.168.0.161:10086/xuanlubin/spring_config_store.git
+          uri: http://192.168.0.161:10086/config-store/spring-cloud.git
           username: xuanlubin
           password: Abc123456
 
