@@ -4,6 +4,8 @@ spring:
   cloud:
     config:
       token: e83c4e76c957da6b77580e3b8237ca7622443491
+      token-map:
+        dev: e83c4e76c9dsasd753984e3b8237ca7622443491
 encrypt:
   key: e83c4e76c957da6b77580e3b8237ca7622443491
 ip-white-list:
