@@ -32,7 +32,7 @@ public class WhiteIpListFilter implements ContainerRequestFilter {
             //throw new RuntimeException("无权访问");
             HttpServletResponse response = (HttpServletResponse) RequestFilter.getServletResponse();
             try {
-                response.sendError(403,"无权访问");
+                response.sendError(403, "无权访问该资源:" + containerRequest.getMethod() + " " + containerRequest.getPath());
             } catch (IOException e) {
                 e.printStackTrace();
             }
