@@ -17,3 +17,8 @@ spring:
     host: 192.168.0.156
     port: 6380
     database: 11
+  http:
+    encoding:
+      enabled: true
+      force: true
+      charset: UTF-8
