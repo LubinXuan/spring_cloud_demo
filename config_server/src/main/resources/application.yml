@@ -34,6 +34,7 @@ spring:
           uri: http://192.168.0.161:10086/config-store/spring-cloud.git
           username: xuanlubin
           password: Abc123456
+          force-pull: true
 
 ---
 spring:

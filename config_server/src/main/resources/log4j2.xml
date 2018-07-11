@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--设置log4j2的自身log级别为warn -->
-<configuration status="warn">
+<configuration status="debug">
     <properties>
         <property name="log.base">./logs/config_server</property>
     </properties>
@@ -18,22 +18,13 @@
             </Policies>
         </RollingFile>
 
-<!--        <RandomAccessFile name="RandomAccessFile" fileName="${log.base}/asyncWithLocation.log" immediateFlush="false" append="true">
-            <PatternLayout>
-                <Pattern>[%t] - %m%n</Pattern>
-            </PatternLayout>
-        </RandomAccessFile>-->
-
     </appenders>
 
     <loggers>
 
-        <logger name="org.apache.rocketmq" level="warn"/>
-        <logger name="org.springframework" level="info"/>
-        <logger name="RocketmqClient" level="warn"/>
-        <logger name="me.robin.spring.rocketmq" level="debug"/>
+        <logger name="org.springframework" level="debug"/>
 
-        <Root level="info">
+        <Root level="debug">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="RollingFileInfo"/>
         </Root>
