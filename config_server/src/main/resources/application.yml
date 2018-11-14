@@ -3,6 +3,14 @@ server:
 spring:
   cloud:
     config:
+      server:
+        git:
+          uri: http://192.168.0.161:10086/config-store/spring-cloud.git
+          username: xuanlubin
+          password: Abc123456
+          force-pull: true
+          basedir: /data1/appuser/spring_cloud/config_file_sotre
+    config:
       token: e83c4e76c957da6b77580e3b8237ca7622443491
       token-map:
         dev: e83c4e76c9dsasd753984e3b8237ca7622443491
@@ -22,28 +30,3 @@ ip-white-list:
     - 192.168.0.160
     - 192.168.0.161
     - 127.0.0.1
-
-
----
-spring:
-  profiles: git
-  cloud:
-    config:
-      server:
-        git:
-          uri: http://192.168.0.161:10086/config-store/spring-cloud.git
-          username: xuanlubin
-          password: Abc123456
-          force-pull: true
-          basedir: /data1/appuser/spring_cloud/config_file_sotre
-
----
-spring:
-  profiles: subversion
-  cloud:
-    config:
-      server:
-        svn:
-          uri: http://192.168.0.161/repos/bigdata/产品开发/数聚客/code/trunk/java/cloud_config
-          username: xuanlubin
-          password: x900907
