@@ -12,16 +12,16 @@ import java.util.Set;
 @RequestMapping("admin")
 public class AdminController {
     @Resource
-    RemoteRegionWhiteListConfigureService configureService;
+    AppWhiteList appWhiteList;
 
     @GetMapping("/white_list/{region}")
     public Set<String> getWhiteList(@PathVariable("region") String region) {
-        return configureService.getAppWhiteList(region);
+        return appWhiteList.getWhiteList(region);
     }
 
-    @GetMapping("/white_list/{region}/{appName}")
+    /*@GetMapping("/white_list/{region}/{appName}")
     public String addWhiteList(@PathVariable("region") String region, @PathVariable("appName") String serviceName) {
-        configureService.addAppWhiteList(region, serviceName);
+        appWhiteList.addAppWhiteList(region, serviceName);
         return "已添加";
-    }
+    }*/
 }

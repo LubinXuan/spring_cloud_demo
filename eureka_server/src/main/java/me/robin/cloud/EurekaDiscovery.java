@@ -6,12 +6,14 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cloud.netflix.eureka.EurekaConstants;
 import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
  * Created by xuanlubin on 2017/4/7.
  */
 @EnableEurekaServer
 @SpringBootApplication
+@EnableAspectJAutoProxy
 public class EurekaDiscovery {
     public static void main(String[] args) {
         if (args.length > 0) {
@@ -30,4 +32,10 @@ public class EurekaDiscovery {
         registration.setOrder(1);
         return registration;
     }
+
+    @Bean
+    public AbstractInstanceRegistryAop abstractInstanceRegistryAop() {
+        return new AbstractInstanceRegistryAop();
+    }
+
 }
