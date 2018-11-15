@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
     <modules>
         <module>eureka_server</module>
-        <module>rest-demo</module>
-        <module>api-gateway</module>
-        <module>repo-test</module>
+        <!--<module>rest-demo</module>
+        <module>api-gateway</module>-->
+        <!--<module>repo-test</module>-->
         <module>config_server</module>
     </modules>
 
