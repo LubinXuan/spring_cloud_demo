@@ -23,3 +23,5 @@ spring:
       enabled: true
       force: true
       charset: UTF-8
+ip-white-list:
+  enable: false
