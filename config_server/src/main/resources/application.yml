@@ -11,7 +11,6 @@ spring:
           force-pull: true
           basedir: /data1/appuser/spring_cloud/config_file_sotre
           search-paths: '{application}'
-    config:
       token: e83c4e76c957da6b77580e3b8237ca7622443491
       token-map:
         dev: e83c4e76c9dsasd753984e3b8237ca7622443491
