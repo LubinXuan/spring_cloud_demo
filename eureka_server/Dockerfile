@@ -8,5 +8,7 @@ ENV profile=""
 RUN apk add --no-cache -U tzdata \
  && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
  && apk del tzdata \
- && echo "Asia/Shanghai">>/etc/timezone
+ && echo "Asia/Shanghai" > /etc/timezone \
+ && cat /etc/localtime \
+ && cat /etc/timezone
 ENTRYPOINT [ "sh", "-c", "java -Dspring.profiles.active=$profile $JAVA_OPTS $APP_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar" ]
