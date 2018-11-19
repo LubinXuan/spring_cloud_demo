@@ -7,5 +7,8 @@ ENV APP_OPTS=""
 ENV profile=""
 RUN apk add --no-cache -U tzdata \
  && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+ && ls /usr/share/zoneinfo \
+ && cat /usr/share/zoneinfo/Asia/Shanghai \
+ && cat /etc/localtime \
  && apk del tzdata
 ENTRYPOINT [ "sh", "-c", "java -Dspring.profiles.active=$profile $JAVA_OPTS $APP_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar" ]
