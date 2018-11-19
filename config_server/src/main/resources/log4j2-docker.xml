@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--设置log4j2的自身log级别为warn -->
+<configuration status="debug">
+    <appenders>
+        <console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%t] [%p] - %C[%M:%L] - %m%n"/>
+        </console>
+
+    </appenders>
+
+    <loggers>
+        <logger name="org.springframework" level="error"/>
+        <Root level="warn">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </loggers>
+
+</configuration>

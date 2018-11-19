@@ -31,3 +31,5 @@ ip-white-list:
     - 192.168.0.161
     - 192.168.20.8
     - 127.0.0.1
+logging:
+  file: classpath:log4j2-docker.xml
